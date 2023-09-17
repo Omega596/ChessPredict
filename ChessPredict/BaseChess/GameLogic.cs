@@ -151,16 +151,21 @@ namespace ChessPredict.BaseChess.Base.GameLogic
     {
         static void Main()
         {
-            Board board = new();
-            List<(int, int)> legalMoves = new List<(int, int)>(Logic.GetLegalMoves(AllPieces.Knight, 5, 2));
-            for (int i = 0; i < legalMoves.Count; i++)
-            {
-                Print.Printl(legalMoves[i]);
-            }
+            var init = new Init();
+            init.Initialization();
         }
         public void Initialization()
         {
-            // Code for initialization goes here
+            Board board = new();
+            for (int i = 0; i < 7; i++)
+            {
+                for (int j = 0; j < 7; j++)
+                {
+                    Console.Write($"{board.BoardMatrix[i, j].CurrentPiece} \t");
+                }
+                Console.WriteLine();
+            }
         }
+
     }
 }
