@@ -63,7 +63,7 @@ namespace ChessPredict.BaseChess.Base
                 }
                 else
                 {
-                    Console.WriteLine("Tried to write to Checkmate, but conditctional switch denied change.");
+                    Console.WriteLine("Tried to write to Checkmate, but conditional switch denied change.");
                     return;
                 }
             }
