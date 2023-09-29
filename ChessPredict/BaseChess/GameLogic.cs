@@ -1,5 +1,4 @@
-﻿using SLibrary.features;
-using static ChessPredict.BaseChess.Base.Piece;
+﻿using static ChessPredict.BaseChess.Base.Piece;
 
 namespace ChessPredict.BaseChess.Base.GameLogic
 {
