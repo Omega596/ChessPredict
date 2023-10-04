@@ -4,7 +4,11 @@ namespace ChessPredict.BaseChess.Base.GameLogic
 {
     class Logic
     {
-        public abstract class Predict { }
+        public abstract class Predict
+        {
+            public abstract Piece[,] BranchingPrediction();
+        }
+
         public static bool IsInBoundsMove(int x, int y)
         {
             bool validx;

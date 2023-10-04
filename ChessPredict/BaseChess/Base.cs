@@ -1,4 +1,8 @@
-﻿namespace ChessPredict.BaseChess.Base
+﻿using System.Collections;
+using System.Text;
+using System.Text.Json;
+
+namespace ChessPredict.BaseChess.Base
 
 {
     public struct Piece
@@ -41,6 +45,13 @@
             BoardMatrix = BoardMatrixFill();
 
         }
+        public BitArray Serializer(Piece[,] Board)
+        {
+            var json = JsonSerializer.Serialize(Board);
+            byte[] bytes = Encoding.ASCII.GetBytes(json);
+            BitArray bitArray = new(bytes);
+            return bitArray;
+        }
         private bool Checkmate;
         public bool checkmate
         {
@@ -66,5 +77,10 @@
             }
         }
         public bool ResetGame = false;
+    }
+    public class BoardLeaf : Board
+    {
+        BitArray? Position;
+        
     }
 }
