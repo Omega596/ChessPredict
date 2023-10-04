@@ -1,9 +1,6 @@
-﻿using System.Runtime.CompilerServices;
-
-namespace ChessPredict.BaseChess.Base
+﻿namespace ChessPredict.BaseChess.Base
 
 {
-    public abstract class Predict { }
     public struct Piece
     {
         public AllPieces CurrentPiece = new();

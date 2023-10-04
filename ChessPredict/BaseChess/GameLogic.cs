@@ -1,10 +1,10 @@
-﻿using SLibrary.features;
-using static ChessPredict.BaseChess.Base.Piece;
+﻿using static ChessPredict.BaseChess.Base.Piece;
 
 namespace ChessPredict.BaseChess.Base.GameLogic
 {
     class Logic
     {
+        public abstract class Predict { }
         public static bool IsInBoundsMove(int x, int y)
         {
             bool validx;
