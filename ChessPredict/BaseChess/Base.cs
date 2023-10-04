@@ -1,13 +1,20 @@
 ﻿using System.Collections;
-using System.Text;
-using System.Text.Json;
+using ProtoBuf;
 
 namespace ChessPredict.BaseChess.Base
 
 {
+
+    [ProtoContract]
     public struct Piece
     {
-        public AllPieces CurrentPiece = new();
+        [ProtoMember(1)]
+        public AllPieces CurrentPiece;
+
+        [ProtoMember(2)]
+        public Color color;
+
+        [ProtoContract]
         public enum AllPieces
         {
             None,
@@ -18,13 +25,15 @@ namespace ChessPredict.BaseChess.Base
             Queen = 9,
             King
         }
+
+        [ProtoContract]
         public enum Color
         {
             White,
             Black
         }
-        public Piece() { }
     }
+
     public class Board
     {
         public Piece[,] BoardMatrixFill()
@@ -44,13 +53,6 @@ namespace ChessPredict.BaseChess.Base
         {
             BoardMatrix = BoardMatrixFill();
 
-        }
-        public BitArray Serializer(Piece[,] Board)
-        {
-            var json = JsonSerializer.Serialize(Board);
-            byte[] bytes = Encoding.ASCII.GetBytes(json);
-            BitArray bitArray = new(bytes);
-            return bitArray;
         }
         private bool Checkmate;
         public bool checkmate
@@ -81,6 +83,22 @@ namespace ChessPredict.BaseChess.Base
     public class BoardLeaf : Board
     {
         BitArray? Position;
-        
+        private int Score;
+        public int score
+        {
+            get { return Score; }
+            set
+            {
+                if (value < 0)
+                {
+                    return;
+                }
+                if (value > 10)
+                {
+                    return;
+                }
+                Score = value;
+            }
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using static ChessPredict.BaseChess.Base.Piece;
+﻿using System.Collections;
+using static ChessPredict.BaseChess.Base.Piece;
 
 namespace ChessPredict.BaseChess.Base.GameLogic
 {
@@ -35,23 +36,23 @@ namespace ChessPredict.BaseChess.Base.GameLogic
             {
                 case AllPieces.None: break;
                 case AllPieces.Bishop:
-                {
-                    List<(int, int)> directions = new() { (-1,1), (1,1), (-1,-1), (1,-1) };
-                    foreach ((int, int) direction in directions)
                     {
-                        for (int i = 0; i < 7; i++)
+                        List<(int, int)> directions = new() { (-1, 1), (1, 1), (-1, -1), (1, -1) };
+                        foreach ((int, int) direction in directions)
                         {
-                            int nx = x + direction.Item1;
-                            int ny = y + direction.Item2;
-                            (int, int) position = (nx, ny);
-                            if (IsInBoundsMove(position.Item1, position.Item2))
+                            for (int i = 0; i < 7; i++)
                             {
-                                legalMoves.Add((position.Item1, position.Item2));
+                                int nx = x + direction.Item1;
+                                int ny = y + direction.Item2;
+                                (int, int) position = (nx, ny);
+                                if (IsInBoundsMove(position.Item1, position.Item2))
+                                {
+                                    legalMoves.Add((position.Item1, position.Item2));
+                                }
                             }
                         }
+                        return legalMoves;
                     }
-                    return legalMoves;
-                }
                 case AllPieces.Rook:
                     {
                         List<(int, int)> directions = new() { (-1, 0), (1, 0), (0, 1), (0, -1) };
@@ -72,7 +73,7 @@ namespace ChessPredict.BaseChess.Base.GameLogic
                     }
                 case AllPieces.Pawn:
                     {
-                        List<(int, int)> directions = new() { (0,1) };
+                        List<(int, int)> directions = new() { (0, 1) };
                         foreach ((int, int) direction in directions)
                         {
                             for (int i = 0; i <= 0; i++)

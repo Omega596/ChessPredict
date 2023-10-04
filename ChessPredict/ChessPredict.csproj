@@ -16,6 +16,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="..\.editorconfig" Link=".editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="protobuf-net" Version="3.2.26" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="SLibrary">
       <HintPath>..\..\SLibrary\SLibrary\bin\Debug\net8.0\SLibrary.dll</HintPath>
     </Reference>
