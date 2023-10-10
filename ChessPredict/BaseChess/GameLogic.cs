@@ -28,6 +28,15 @@ namespace ChessPredict.BaseChess.Base.GameLogic
             };
             return validx && validy;
         }
+        public static void MovePiece(AllPieces piece, Board Board int x, int y, int nx, int ny)
+        {
+            if (Board.BoardMatrix[x, y].CurrentPiece == AllPieces.None)
+            {
+                return 0;
+            }
+            Board.BoardMatrix[nx, ny] = Board.BoardMatrix[x, y];
+            BoardMatrix.BoardMatrix[x, y] = new Piece { CurrentPiece = AllPieces.None, color=Color.None };
+        }
         public static List<(int, int)> GetLegalMoves(AllPieces piece, int x, int y)
         {
             List<(int, int)> legalMoves = new();

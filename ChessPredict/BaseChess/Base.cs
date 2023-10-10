@@ -29,6 +29,7 @@ namespace ChessPredict.BaseChess.Base
         [ProtoContract]
         public enum Color
         {
+            None,
             White,
             Black
         }
