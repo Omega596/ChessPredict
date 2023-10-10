@@ -18,13 +18,13 @@ namespace ChessPredict.BaseChess.Base.GameLogic
             {
                 < 0 => false,
                 > 7 => false,
-                _ => false
+                _ => true
             };
             validy = y switch
             {
                 < 0 => false,
                 > 7 => false,
-                _ => false
+                _ => true
             };
             return validx && validy;
         }

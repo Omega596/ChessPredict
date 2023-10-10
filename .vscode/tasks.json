@@ -6,12 +6,18 @@
         {
             "label": "Build",
             "type": "shell",
-            "command": "${userHome}/.dotnet/dotnet build ${workspaceFolder}/${workspaceFolderBasename}",
+            "command": "dotnet build ${workspaceFolder}/${workspaceFolderBasename}",
             "problemMatcher": [],
             "group": {
                 "kind": "build",
                 "isDefault": true
             }
+        },
+        {
+            "label": "Run",
+            "type": "shell",
+            "command": "dotnet run --project ${workspaceFolder}/${workspaceFolderBasename}/${workspaceFolderBasename}.csproj",
+            "problemMatcher": []
         }
     ]
 }

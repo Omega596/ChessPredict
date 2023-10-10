@@ -1,8 +1,6 @@
-﻿using ChessPredict.BaseChess.Base.GameLogic;
-
-namespace Prediction
+﻿namespace ChessPredict.Predition
 {
-    class Predict : Logic
+    class Prediction
     {
 
     }
