@@ -5,16 +5,12 @@ namespace ChessPredict.BaseChess.Base
 
 {
 
-    [ProtoContract]
     public struct Piece
     {
-        [ProtoMember(1)]
         public AllPieces CurrentPiece;
 
-        [ProtoMember(2)]
         public Color color;
 
-        [ProtoContract]
         public enum AllPieces
         {
             None,
@@ -26,7 +22,6 @@ namespace ChessPredict.BaseChess.Base
             King
         }
 
-        [ProtoContract]
         public enum Color
         {
             None,
@@ -81,11 +76,12 @@ namespace ChessPredict.BaseChess.Base
         }
         public bool ResetGame = false;
     }
+    // For prediction, stores the position and score of the board
     public class BoardLeaf : Board
     {
-        BitArray? Position;
-        private int Score;
-        public int score
+        (BitArray?, BitArray?) PositionColor;
+        private double Score;
+        public double score
         {
             get { return Score; }
             set
