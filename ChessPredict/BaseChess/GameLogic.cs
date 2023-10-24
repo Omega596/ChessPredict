@@ -28,14 +28,26 @@ namespace ChessPredict.BaseChess.Base.GameLogic
             };
             return validx && validy;
         }
-        public static void MovePiece(AllPieces piece, Board Board int x, int y, int nx, int ny)
+        // A function that move pieces, with check to catch any illegal attempts to move.
+        public static void MovePiece(AllPieces piece, Board Board, int x, int y, int nx, int ny)
         {
             if (Board.BoardMatrix[x, y].CurrentPiece == AllPieces.None)
             {
-                return 0;
+                return;
+            }
+            List<(int, int)> legalMoves = GetLegalMoves(piece, x, y);
+            if (!legalMoves.Equals(legalMoves.Find(x => x.Item1 == nx && x.Item2 == ny)))
+            {
+                return;
             }
             Board.BoardMatrix[nx, ny] = Board.BoardMatrix[x, y];
-            BoardMatrix.BoardMatrix[x, y] = new Piece { CurrentPiece = AllPieces.None, color=Color.None };
+            Board.BoardMatrix[x, y] = new Piece { CurrentPiece = AllPieces.None, color=Color.None };
+        }
+        // A function that forcefully move pieces. Use with caution.
+        public static void ForceMovePiece(AllPieces piece, Board Board, int x, int y, int nx, int ny)
+        {
+            Board.BoardMatrix[nx, ny] = Board.BoardMatrix[x, y];
+            Board.BoardMatrix[x, y] = new Piece { CurrentPiece = AllPieces.None, color=Color.None };
         }
         public static List<(int, int)> GetLegalMoves(AllPieces piece, int x, int y)
         {
