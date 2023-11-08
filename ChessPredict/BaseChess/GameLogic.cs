@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using System;
 using static ChessPredict.BaseChess.Base.Piece;
 
 namespace ChessPredict.BaseChess.Base.GameLogic
@@ -29,14 +29,14 @@ namespace ChessPredict.BaseChess.Base.GameLogic
             return validx && validy;
         }
         // A function that move pieces, with check to catch any illegal attempts to move.
-        public static void MovePiece(AllPieces piece, Board Board, int x, int y, int nx, int ny)
+        public static void MovePiece(Color color, AllPieces piece, Board Board, int x, int y, int nx, int ny)
         {
             if (Board.BoardMatrix[x, y].CurrentPiece == AllPieces.None)
             {
                 return;
             }
-            List<(int, int)> legalMoves = GetLegalMoves(piece, x, y);
-            if (!legalMoves.Equals(legalMoves.Find(x => x.Item1 == nx && x.Item2 == ny)))
+            List<(int, int)> legalMoves = GetLegalMoves(color, piece, x, y);
+            if (legalMoves.Contains((nx, ny)))
             {
                 return;
             }
@@ -49,7 +49,7 @@ namespace ChessPredict.BaseChess.Base.GameLogic
             Board.BoardMatrix[nx, ny] = Board.BoardMatrix[x, y];
             Board.BoardMatrix[x, y] = new Piece { CurrentPiece = AllPieces.None, color=Color.None };
         }
-        public static List<(int, int)> GetLegalMoves(AllPieces piece, int x, int y)
+        public static List<(int, int)> GetLegalMoves(Color color, AllPieces piece, int x, int y)
         {
             List<(int, int)> legalMoves = new();
 
@@ -95,6 +95,7 @@ namespace ChessPredict.BaseChess.Base.GameLogic
                 case AllPieces.Pawn:
                     {
                         List<(int, int)> directions = new() { (0, 1) };
+                        if (color == )
                         foreach ((int, int) direction in directions)
                         {
                             for (int i = 0; i <= 0; i++)
