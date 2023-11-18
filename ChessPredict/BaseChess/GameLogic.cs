@@ -29,27 +29,27 @@ namespace ChessPredict.BaseChess.Base.GameLogic
             return validx && validy;
         }
         // A function that move pieces, with check to catch any illegal attempts to move.
-        public static void MovePiece(Color color, AllPieces piece, Board Board, int x, int y, int nx, int ny)
+        public static void MovePiece(Color color, AllPieces piece, Board Board, int CurrentPosX, int CurrentPosY, int MoveToX, int MoveToY)
         {
-            if (Board.BoardMatrix[x, y].CurrentPiece == AllPieces.None)
+            if (Board.BoardMatrix[CurrentPosX, CurrentPosY].CurrentPiece == AllPieces.None)
             {
                 return;
             }
-            List<(int, int)> legalMoves = GetLegalMoves(color, piece, x, y);
-            if (legalMoves.Contains((nx, ny)))
+            List<(int, int)> legalMoves = GetLegalMoves(color, piece, CurrentPosX, CurrentPosY);
+            if (!legalMoves.Contains((MoveToX, MoveToY)))
             {
                 return;
             }
-            Board.BoardMatrix[nx, ny] = Board.BoardMatrix[x, y];
-            Board.BoardMatrix[x, y] = new Piece { CurrentPiece = AllPieces.None, color=Color.None };
+            Board.BoardMatrix[MoveToX, MoveToY] = Board.BoardMatrix[CurrentPosX, CurrentPosY];
+            Board.BoardMatrix[CurrentPosX, CurrentPosY] = new Piece { CurrentPiece = AllPieces.None, color=Color.None };
         }
         // A function that forcefully move pieces. Use with caution.
-        public static void ForceMovePiece(AllPieces piece, Board Board, int x, int y, int nx, int ny)
+        public static void ForceMovePiece(AllPieces piece, Board Board, int CurrentPosX, int CurrentPosY, int ForceToX, int ForceToY)
         {
-            Board.BoardMatrix[nx, ny] = Board.BoardMatrix[x, y];
-            Board.BoardMatrix[x, y] = new Piece { CurrentPiece = AllPieces.None, color=Color.None };
+            Board.BoardMatrix[ForceToX, ForceToY] = Board.BoardMatrix[CurrentPosX, CurrentPosY];
+            Board.BoardMatrix[CurrentPosX, CurrentPosY] = new Piece { CurrentPiece = AllPieces.None, color=Color.None };
         }
-        public static List<(int, int)> GetLegalMoves(Color color, AllPieces piece, int x, int y)
+        public static List<(int, int)> GetLegalMoves(Color color, AllPieces piece, int CurrentPosX, int CurrentPosY)
         {
             List<(int, int)> legalMoves = new();
 
@@ -63,9 +63,9 @@ namespace ChessPredict.BaseChess.Base.GameLogic
                         {
                             for (int i = 0; i < 7; i++)
                             {
-                                int nx = x + direction.Item1;
-                                int ny = y + direction.Item2;
-                                (int, int) position = (nx, ny);
+                                int PotentialMoveX = CurrentPosX + direction.Item1;
+                                int PotentialMoveY = CurrentPosY + direction.Item2;
+                                (int, int) position = (PotentialMoveX, PotentialMoveY);
                                 if (IsInBoundsMove(position.Item1, position.Item2))
                                 {
                                     legalMoves.Add((position.Item1, position.Item2));
@@ -81,9 +81,9 @@ namespace ChessPredict.BaseChess.Base.GameLogic
                         {
                             for (int i = 0; i < 7; i++)
                             {
-                                int nx = x + direction.Item1;
-                                int ny = y + direction.Item2;
-                                (int, int) position = (nx, ny);
+                                int PotentialMoveX = CurrentPosX + direction.Item1;
+                                int PotentialMoveY = CurrentPosY + direction.Item2;
+                                (int, int) position = (PotentialMoveX, PotentialMoveY);
                                 if (IsInBoundsMove(position.Item1, position.Item2))
                                 {
                                     legalMoves.Add((position.Item1, position.Item2));
@@ -95,14 +95,18 @@ namespace ChessPredict.BaseChess.Base.GameLogic
                 case AllPieces.Pawn:
                     {
                         List<(int, int)> directions = new() { (0, 1) };
-                        if (color == )
+                        if (color == Piece.Color.Black)
+                        {
+                            directions.Clear();
+                            directions.Add((0, -1));
+                        }
                         foreach ((int, int) direction in directions)
                         {
                             for (int i = 0; i <= 0; i++)
                             {
-                                int nx = x + direction.Item1;
-                                int ny = y + direction.Item2;
-                                (int, int) position = (nx, ny);
+                                int PotentialMoveX = CurrentPosX + direction.Item1;
+                                int PotentialMoveY = CurrentPosY + direction.Item2;
+                                (int, int) position = (PotentialMoveX, PotentialMoveY);
                                 if (IsInBoundsMove(position.Item1, position.Item2))
                                 {
                                     legalMoves.Add((position.Item1, position.Item2));
@@ -118,9 +122,9 @@ namespace ChessPredict.BaseChess.Base.GameLogic
                         {
                             for (int i = 0; i < 7; i++)
                             {
-                                int nx = x + direction.Item1;
-                                int ny = y + direction.Item2;
-                                (int, int) position = (nx, ny);
+                                int PotentialMoveX = CurrentPosX + direction.Item1;
+                                int PotentialMoveY = CurrentPosY + direction.Item2;
+                                (int, int) position = (PotentialMoveX, PotentialMoveY);
                                 if (IsInBoundsMove(position.Item1, position.Item2))
                                 {
                                     legalMoves.Add((position.Item1, position.Item2));
@@ -136,9 +140,9 @@ namespace ChessPredict.BaseChess.Base.GameLogic
                         {
                             for (int i = 0; i <= 0; i++)
                             {
-                                int nx = x + direction.Item1;
-                                int ny = y + direction.Item2;
-                                (int, int) position = (nx, ny);
+                                int PotentialMoveX = CurrentPosX + direction.Item1;
+                                int PotentialMoveY = CurrentPosY + direction.Item2;
+                                (int, int) position = (PotentialMoveX, PotentialMoveY);
                                 if (IsInBoundsMove(position.Item1, position.Item2))
                                 {
                                     legalMoves.Add((position.Item1, position.Item2));
@@ -154,9 +158,9 @@ namespace ChessPredict.BaseChess.Base.GameLogic
                         {
                             for (int i = 0; i <= 0; i++)
                             {
-                                int nx = x + direction.Item1;
-                                int ny = y + direction.Item2;
-                                (int, int) position = (nx, ny);
+                                int PotentialMoveX = CurrentPosX + direction.Item1;
+                                int PotentialMoveY = CurrentPosY + direction.Item2;
+                                (int, int) position = (PotentialMoveX, PotentialMoveY);
                                 if (IsInBoundsMove(position.Item1, position.Item2))
                                 {
                                     legalMoves.Add((position.Item1, position.Item2));
@@ -175,22 +179,64 @@ namespace ChessPredict.BaseChess.Base.GameLogic
     }
     class Init
     {
+        static void PrintBoard(Board board)
+        {
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    Console.Write(board.BoardMatrix[i, j].CurrentPiece + " ");
+                }
+                Console.WriteLine();
+            }
+        }
         static void Main()
         {
             var init = new Init();
             init.Initialization();
         }
+Board InitBoard()
+{
+    Board board = new();
+
+    // Initialize black pieces
+    board.BoardMatrix[0, 0] = new Piece { CurrentPiece = AllPieces.Rook, Position = (0, 0), color = Color.Black };
+    board.BoardMatrix[0, 1] = new Piece { CurrentPiece = AllPieces.Knight, Position = (0, 1), color = Color.Black };
+    board.BoardMatrix[0, 2] = new Piece { CurrentPiece = AllPieces.Bishop, Position = (0, 2), color = Color.Black };
+    board.BoardMatrix[0, 3] = new Piece { CurrentPiece = AllPieces.Queen, Position = (0, 3), color = Color.Black };
+    board.BoardMatrix[0, 4] = new Piece { CurrentPiece = AllPieces.King, Position = (0, 4), color = Color.Black };
+    board.BoardMatrix[0, 5] = new Piece { CurrentPiece = AllPieces.Bishop, Position = (0, 5), color = Color.Black };
+    board.BoardMatrix[0, 6] = new Piece { CurrentPiece = AllPieces.Knight, Position = (0, 6), color = Color.Black };
+    board.BoardMatrix[0, 7] = new Piece { CurrentPiece = AllPieces.Rook, Position = (0, 7), color = Color.Black };
+
+    // Initialize black pawns
+    for (int i = 0; i < 8; i++)
+    {
+        board.BoardMatrix[1, i] = new Piece { CurrentPiece = AllPieces.Pawn, Position = (1, i), color = Color.Black };
+    }
+
+    // Initialize white pieces
+    board.BoardMatrix[7, 0] = new Piece { CurrentPiece = AllPieces.Rook, Position = (7, 0), color = Color.White };
+    board.BoardMatrix[7, 1] = new Piece { CurrentPiece = AllPieces.Knight, Position = (7, 1), color = Color.White };
+    board.BoardMatrix[7, 2] = new Piece { CurrentPiece = AllPieces.Bishop, Position = (7, 2), color = Color.White };
+    board.BoardMatrix[7, 3] = new Piece { CurrentPiece = AllPieces.Queen, Position = (7, 3), color = Color.White };
+    board.BoardMatrix[7, 4] = new Piece { CurrentPiece = AllPieces.King, Position = (7, 4), color = Color.White };
+    board.BoardMatrix[7, 5] = new Piece { CurrentPiece = AllPieces.Bishop, Position = (7, 5), color = Color.White };
+    board.BoardMatrix[7, 6] = new Piece { CurrentPiece = AllPieces.Knight, Position = (7, 6), color = Color.White };
+    board.BoardMatrix[7, 7] = new Piece { CurrentPiece = AllPieces.Rook, Position = (7, 7), color = Color.White };
+
+    // Initialize white pawns
+    for (int i = 0; i < 8; i++)
+    {
+        board.BoardMatrix[6, i] = new Piece { CurrentPiece = AllPieces.Pawn, Position = (6, i), color = Color.White };
+    }
+
+    return board;
+}
         public void Initialization()
         {
-            Board board = new();
-            for (int i = 0; i < 7; i++)
-            {
-                for (int j = 0; j < 7; j++)
-                {
-                    Console.Write($"{board.BoardMatrix[i, j].CurrentPiece} \t");
-                }
-                Console.WriteLine();
-            }
+            Board board = InitBoard();
+            PrintBoard(board);
         }
 
     }
