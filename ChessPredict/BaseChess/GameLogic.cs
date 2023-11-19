@@ -1,7 +1,8 @@
-﻿using System;
+﻿using ChessPredict.BaseChess.Base;
 using static ChessPredict.BaseChess.Base.Piece;
 
-namespace ChessPredict.BaseChess.Base.GameLogic
+// ReSharper disable once CheckNamespace
+namespace ChessPredict.BaseChess.GameLogic
 {
     class Logic
     {
@@ -10,17 +11,15 @@ namespace ChessPredict.BaseChess.Base.GameLogic
             public abstract Piece[,] BranchingPrediction();
         }
 
-        public static bool IsInBoundsMove(int x, int y)
+        private static bool IsInBoundsMove(int x, int y)
         {
-            bool validx;
-            bool validy;
-            validx = x switch
+            var validx = x switch
             {
                 < 0 => false,
                 > 7 => false,
                 _ => true
             };
-            validy = y switch
+            var validy = y switch
             {
                 < 0 => false,
                 > 7 => false,
@@ -49,6 +48,7 @@ namespace ChessPredict.BaseChess.Base.GameLogic
             board.BoardMatrix[forceToX, forceToY] = board.BoardMatrix[currentPosX, currentPosY];
             board.BoardMatrix[currentPosX, currentPosY] = new Piece { CurrentPiece = AllPieces.None, color=Color.None };
         }
+
         public static List<(int, int)> GetLegalMoves(Color color, AllPieces piece, int currentPosX, int currentPosY)
         {
             List<(int, int)> legalMoves = new();
@@ -95,7 +95,7 @@ namespace ChessPredict.BaseChess.Base.GameLogic
                 case AllPieces.Pawn:
                     {
                         List<(int, int)> directions = new() { (1, 0) };
-                        if (color == Piece.Color.Black)
+                        if (color == Color.Black)
                         {
                             directions.Clear();
                             directions.Add((-1, 0));
@@ -165,10 +165,6 @@ namespace ChessPredict.BaseChess.Base.GameLogic
                                 {
                                     legalMoves.Add((position.Item1, position.Item2));
                                 }
-                                else
-                                {
-                                    continue;
-                                }
                             }
                         }
                         return legalMoves;
@@ -179,11 +175,11 @@ namespace ChessPredict.BaseChess.Base.GameLogic
     }
     class Init
     {
-        static void PrintBoard(Board board)
+        private static void PrintBoard(Board board)
         {
-            for (int i = 0; i < 8; i++)
+            for (var i = 0; i < 8; i++)
             {
-                for (int j = 0; j < 8; j++)
+                for (var j = 0; j < 8; j++)
                 {
                     Console.Write(board.BoardMatrix[i, j].CurrentPiece + " ");
                 }
@@ -196,45 +192,45 @@ namespace ChessPredict.BaseChess.Base.GameLogic
             var init = new Init();
             init.Initialization();
         }
-Board InitBoard()
-{
-    Board board = new();
-
-    // Initialize black pieces
-    board.BoardMatrix[7, 0] = new Piece { CurrentPiece = AllPieces.Rook, Position = (0, 0), color = Color.Black };
-    board.BoardMatrix[7, 1] = new Piece { CurrentPiece = AllPieces.Knight, Position = (0, 1), color = Color.Black };
-    board.BoardMatrix[7, 2] = new Piece { CurrentPiece = AllPieces.Bishop, Position = (0, 2), color = Color.Black };
-    board.BoardMatrix[7, 3] = new Piece { CurrentPiece = AllPieces.Queen, Position = (0, 3), color = Color.Black };
-    board.BoardMatrix[7, 4] = new Piece { CurrentPiece = AllPieces.King, Position = (0, 4), color = Color.Black };
-    board.BoardMatrix[7, 5] = new Piece { CurrentPiece = AllPieces.Bishop, Position = (0, 5), color = Color.Black };
-    board.BoardMatrix[7, 6] = new Piece { CurrentPiece = AllPieces.Knight, Position = (0, 6), color = Color.Black };
-    board.BoardMatrix[7, 7] = new Piece { CurrentPiece = AllPieces.Rook, Position = (0, 7), color = Color.Black };
-
-    // Initialize black pawns
-    for (int i = 0; i < 8; i++)
+    static Board InitBoard() 
     {
-        board.BoardMatrix[6, i] = new Piece { CurrentPiece = AllPieces.Pawn, Position = (1, i), color = Color.Black };
+        Board board = new Board();
+    
+        // Initialize black pieces
+        board.BoardMatrix[7, 0] = new Piece { CurrentPiece = AllPieces.Rook, Position = (0, 0), color = Color.Black };
+        board.BoardMatrix[7, 1] = new Piece { CurrentPiece = AllPieces.Knight, Position = (0, 1), color = Color.Black };
+        board.BoardMatrix[7, 2] = new Piece { CurrentPiece = AllPieces.Bishop, Position = (0, 2), color = Color.Black };
+        board.BoardMatrix[7, 3] = new Piece { CurrentPiece = AllPieces.Queen, Position = (0, 3), color = Color.Black };
+        board.BoardMatrix[7, 4] = new Piece { CurrentPiece = AllPieces.King, Position = (0, 4), color = Color.Black };
+        board.BoardMatrix[7, 5] = new Piece { CurrentPiece = AllPieces.Bishop, Position = (0, 5), color = Color.Black };
+        board.BoardMatrix[7, 6] = new Piece { CurrentPiece = AllPieces.Knight, Position = (0, 6), color = Color.Black };
+        board.BoardMatrix[7, 7] = new Piece { CurrentPiece = AllPieces.Rook, Position = (0, 7), color = Color.Black };
+    
+        // Initialize white pieces
+        board.BoardMatrix[0, 0] = new Piece { CurrentPiece = AllPieces.Rook, Position = (7, 0), color = Color.White };
+        board.BoardMatrix[0, 1] = new Piece { CurrentPiece = AllPieces.Knight, Position = (7, 1), color = Color.White };
+        board.BoardMatrix[0, 2] = new Piece { CurrentPiece = AllPieces.Bishop, Position = (7, 2), color = Color.White };
+        board.BoardMatrix[0, 3] = new Piece { CurrentPiece = AllPieces.Queen, Position = (7, 3), color = Color.White };
+        board.BoardMatrix[0, 4] = new Piece { CurrentPiece = AllPieces.King, Position = (7, 4), color = Color.White };
+        board.BoardMatrix[0, 5] = new Piece { CurrentPiece = AllPieces.Bishop, Position = (7, 5), color = Color.White };
+        board.BoardMatrix[0, 6] = new Piece { CurrentPiece = AllPieces.Knight, Position = (7, 6), color = Color.White };
+        board.BoardMatrix[0, 7] = new Piece { CurrentPiece = AllPieces.Rook, Position = (7, 7), color = Color.White };
+
+        // Initialize black pawns
+        for (var i = 0; i < 8; i++)
+        {
+            board.BoardMatrix[6, i] = new Piece { CurrentPiece = AllPieces.Pawn, Position = (1, i), color = Color.Black };
+        }
+
+        // Initialize white pawns
+        for (var i = 0; i < 8; i++)
+        {
+            board.BoardMatrix[1, i] = new Piece { CurrentPiece = AllPieces.Pawn, Position = (6, i), color = Color.White };
+        }
+
+        return board;
     }
-
-    // Initialize white pieces
-    board.BoardMatrix[0, 0] = new Piece { CurrentPiece = AllPieces.Rook, Position = (7, 0), color = Color.White };
-    board.BoardMatrix[0, 1] = new Piece { CurrentPiece = AllPieces.Knight, Position = (7, 1), color = Color.White };
-    board.BoardMatrix[0, 2] = new Piece { CurrentPiece = AllPieces.Bishop, Position = (7, 2), color = Color.White };
-    board.BoardMatrix[0, 3] = new Piece { CurrentPiece = AllPieces.Queen, Position = (7, 3), color = Color.White };
-    board.BoardMatrix[0, 4] = new Piece { CurrentPiece = AllPieces.King, Position = (7, 4), color = Color.White };
-    board.BoardMatrix[0, 5] = new Piece { CurrentPiece = AllPieces.Bishop, Position = (7, 5), color = Color.White };
-    board.BoardMatrix[0, 6] = new Piece { CurrentPiece = AllPieces.Knight, Position = (7, 6), color = Color.White };
-    board.BoardMatrix[0, 7] = new Piece { CurrentPiece = AllPieces.Rook, Position = (7, 7), color = Color.White };
-
-    // Initialize white pawns
-    for (int i = 0; i < 8; i++)
-    {
-        board.BoardMatrix[1, i] = new Piece { CurrentPiece = AllPieces.Pawn, Position = (6, i), color = Color.White };
-    }
-
-    return board;
-}
-        public void Initialization()
+        private void Initialization()
         {
             Board board = InitBoard();
             PrintBoard(board);

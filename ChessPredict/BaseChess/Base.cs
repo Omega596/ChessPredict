@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using ProtoBuf;
 
+// ReSharper disable once CheckNamespace
 namespace ChessPredict.BaseChess.Base
-
 {
 
     public struct Piece
